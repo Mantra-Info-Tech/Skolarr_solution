@@ -1,0 +1,13 @@
+<svg width="191" height="67" viewBox="0 0 191 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="191" height="67" rx="6" fill="white"/>
+  <g transform="translate(6 4)">
+    <path d="M24 6C17 8 11 16 11 25C11 34 17 42 24 45C31 42 37 34 37 25C37 16 31 8 24 6Z" fill="#171D57"/>
+    <path d="M23.5 0L27 7L34 8L29 13L30 20L23.5 16.5L17 20L18 13L13 8L20 7L23.5 0Z" fill="#D7A058"/>
+    <path d="M11 25C11 16 17 8 24 6V45C17 42 11 34 11 25Z" fill="#D7A058" fill-opacity="0.95"/>
+  </g>
+  <text x="49" y="25" font-size="17" font-family="Manrope, sans-serif" font-weight="800" fill="#262626">SKOLARRS</text>
+  <text x="49" y="40" font-size="13" font-family="Manrope, sans-serif" font-weight="700" fill="#2d2d2d">SOLUTIONS</text>
+  <rect x="49" y="43" width="88" height="11" rx="2" fill="#D7A058"/>
+  <text x="53" y="51" font-size="7" font-family="Manrope, sans-serif" font-weight="700" fill="#1f1f1f">LEARN BEYOND BOUNDARIES</text>
+  <text x="49" y="62" font-size="9" font-family="Manrope, sans-serif" font-weight="700" fill="#464646">STUDY INDIA &amp; ABROAD</text>
+</svg>
