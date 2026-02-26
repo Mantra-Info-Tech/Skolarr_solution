@@ -60,7 +60,15 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-3 md:flex">
+            <a
+              href="https://skolarrssolutions.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-[#c98e2f] px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-colors hover:bg-[#b7802a] lg:px-8 lg:py-3"
+            >
+              skolarrssolutions.com ↗
+            </a>
             <LeadFormTrigger
               label="Get a Call back"
               source="Navbar CTA"
@@ -89,6 +97,14 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
+            <a
+              href="https://skolarrssolutions.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full rounded-xl bg-[#c98e2f] py-3.5 text-center font-bold text-white"
+            >
+              skolarrssolutions.com ↗
+            </a>
             <LeadFormTrigger
               label="Get a Call back"
               source="Navbar Mobile CTA"
