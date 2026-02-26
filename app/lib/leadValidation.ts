@@ -48,8 +48,22 @@ export function validateLeadInput(input: LeadInput): LeadFieldErrors {
     errors.phone = "Enter a valid phone number.";
   }
 
-  if (input.city && input.city.length > 100) {
+  if (!input.city) {
+    errors.city = "City is required.";
+  } else if (input.city.length > 100) {
     errors.city = "City is too long.";
+  }
+
+  if (!input.desiredCourse) {
+    errors.desiredCourse = "Desired course is required.";
+  }
+
+  if (!input.preferredCountry) {
+    errors.preferredCountry = "Preferred country is required.";
+  }
+
+  if (!input.intake) {
+    errors.intake = "Intake is required.";
   }
 
   return errors;

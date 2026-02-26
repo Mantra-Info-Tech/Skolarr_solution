@@ -41,7 +41,15 @@ export default function HeroSection() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const canSubmit = useMemo(() => {
-    return Boolean(values.name && values.email && values.phone);
+    return Boolean(
+      values.name &&
+        values.email &&
+        values.phone &&
+        values.city &&
+        values.desiredCourse &&
+        values.preferredCountry &&
+        values.intake
+    );
   }, [values]);
 
   const handleChange = (
@@ -256,6 +264,7 @@ export default function HeroSection() {
                     name="city"
                     value={values.city}
                     onChange={handleChange}
+                    required
                     type="text"
                     placeholder="City"
                     className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
@@ -274,7 +283,10 @@ export default function HeroSection() {
                     name="desiredCourse"
                     value={values.desiredCourse}
                     onChange={handleChange}
-                    className="w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none"
+                    required
+                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${
+                      errors.desiredCourse ? "ring-2 ring-red-300" : ""
+                    }`}
                   >
                     <option value="">Desired Course</option>
                     <option value="MBA">MBA</option>
@@ -287,6 +299,9 @@ export default function HeroSection() {
                     <span className="text-xs">▼</span>
                   </div>
                 </div>
+                {errors.desiredCourse && (
+                  <p className="mt-1 text-xs text-red-600">{errors.desiredCourse}</p>
+                )}
 
                 <div className="relative">
                   <label htmlFor="hero-preferred-country" className="sr-only">
@@ -297,7 +312,10 @@ export default function HeroSection() {
                     name="preferredCountry"
                     value={values.preferredCountry}
                     onChange={handleChange}
-                    className="w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none"
+                    required
+                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${
+                      errors.preferredCountry ? "ring-2 ring-red-300" : ""
+                    }`}
                   >
                     <option value="">Preferred Country</option>
                     <option value="United Kingdom">United Kingdom</option>
@@ -313,6 +331,9 @@ export default function HeroSection() {
                     <span className="text-xs">▼</span>
                   </div>
                 </div>
+                {errors.preferredCountry && (
+                  <p className="mt-1 text-xs text-red-600">{errors.preferredCountry}</p>
+                )}
 
                 <div className="relative">
                   <label htmlFor="hero-intake" className="sr-only">
@@ -323,7 +344,10 @@ export default function HeroSection() {
                     name="intake"
                     value={values.intake}
                     onChange={handleChange}
-                    className="w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none"
+                    required
+                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${
+                      errors.intake ? "ring-2 ring-red-300" : ""
+                    }`}
                   >
                     <option value="">Intake</option>
                     <option value="Jan 2026">Jan 2026</option>
@@ -335,6 +359,9 @@ export default function HeroSection() {
                     <span className="text-xs">▼</span>
                   </div>
                 </div>
+                {errors.intake && (
+                  <p className="mt-1 text-xs text-red-600">{errors.intake}</p>
+                )}
 
                 <button
                   type="submit"

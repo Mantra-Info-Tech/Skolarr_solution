@@ -10,7 +10,12 @@ const alanSans = localFont({
 
 export const metadata: Metadata = {
   title: "Skolarrs Solutions",
-  description: "Study India and Abroad with personalized admission support."
+  description: "Study India and Abroad with personalized admission support.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png"
+  }
 };
 
 export default function RootLayout({

@@ -88,7 +88,15 @@ export default function LeadFormModal() {
   }, [isOpen, closeLeadForm]);
 
   const canSubmit = useMemo(() => {
-    return Boolean(values.name && values.email && values.phone);
+    return Boolean(
+      values.name &&
+        values.email &&
+        values.phone &&
+        values.city &&
+        values.desiredCourse &&
+        values.preferredCountry &&
+        values.intake
+    );
   }, [values]);
 
   const handleChange = (
@@ -251,6 +259,7 @@ export default function LeadFormModal() {
                   name="city"
                   value={values.city}
                   onChange={handleChange}
+                  required
                   type="text"
                   placeholder="City"
                   className={`w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
@@ -269,7 +278,10 @@ export default function LeadFormModal() {
                   name="desiredCourse"
                   value={values.desiredCourse}
                   onChange={handleChange}
-                  className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none"
+                  required
+                  className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                    errors.desiredCourse ? "ring-2 ring-red-300" : ""
+                  }`}
                 >
                   <option value="">Desired Course</option>
                   {desiredCourseOptions.map((option) => (
@@ -282,6 +294,9 @@ export default function LeadFormModal() {
                   <span className="text-xs">▼</span>
                 </div>
               </div>
+              {errors.desiredCourse && (
+                <p className="mt-1 text-xs text-red-600">{errors.desiredCourse}</p>
+              )}
 
               <div className="relative">
                 <label htmlFor="lead-preferred-country" className="sr-only">
@@ -292,7 +307,10 @@ export default function LeadFormModal() {
                   name="preferredCountry"
                   value={values.preferredCountry}
                   onChange={handleChange}
-                  className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none"
+                  required
+                  className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                    errors.preferredCountry ? "ring-2 ring-red-300" : ""
+                  }`}
                 >
                   <option value="">Preferred Country</option>
                   {preferredCountryOptions.map((option) => (
@@ -305,6 +323,9 @@ export default function LeadFormModal() {
                   <span className="text-xs">▼</span>
                 </div>
               </div>
+              {errors.preferredCountry && (
+                <p className="mt-1 text-xs text-red-600">{errors.preferredCountry}</p>
+              )}
 
               <div className="relative">
                 <label htmlFor="lead-intake" className="sr-only">
@@ -315,7 +336,10 @@ export default function LeadFormModal() {
                   name="intake"
                   value={values.intake}
                   onChange={handleChange}
-                  className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none"
+                  required
+                  className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                    errors.intake ? "ring-2 ring-red-300" : ""
+                  }`}
                 >
                   <option value="">Intake</option>
                   {intakeOptions.map((option) => (
@@ -328,6 +352,9 @@ export default function LeadFormModal() {
                   <span className="text-xs">▼</span>
                 </div>
               </div>
+              {errors.intake && (
+                <p className="mt-1 text-xs text-red-600">{errors.intake}</p>
+              )}
 
               <button
                 type="submit"
