@@ -127,7 +127,7 @@ export default function LeadFormModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 px-4 py-10"
+      className="fixed inset-0 z-[60] overflow-y-auto bg-black/70 p-4 md:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lead-form-title"
@@ -137,7 +137,7 @@ export default function LeadFormModal() {
         }
       }}
     >
-      <div className="relative w-full max-w-5xl rounded-[2rem] bg-white p-5 shadow-2xl md:p-8">
+      <div className="relative mx-auto my-auto max-h-[calc(100dvh-2rem)] w-full max-w-5xl overflow-y-auto rounded-[2rem] bg-white p-5 shadow-2xl md:p-8">
         <button
           type="button"
           onClick={closeLeadForm}

@@ -1,16 +1,81 @@
 "use client";
 
 import Image from "next/image";
-import LeadFormTrigger from "./LeadFormTrigger";
+import { useMemo, useState } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 
-const formFields = [
-  { name: "name", placeholder: "Name", type: "text" },
-  { name: "email", placeholder: "Email address", type: "email" },
-  { name: "phone", placeholder: "Phone number", type: "tel" },
-  { name: "city", placeholder: "City", type: "text" },
-];
+type HeroFormValues = {
+  name: string;
+  email: string;
+  phone: string;
+  city: string;
+  desiredCourse: string;
+  preferredCountry: string;
+  intake: string;
+};
+
+type SubmitState = "idle" | "sending" | "success" | "error";
+
+const initialValues: HeroFormValues = {
+  name: "",
+  email: "",
+  phone: "",
+  city: "",
+  desiredCourse: "",
+  preferredCountry: "",
+  intake: ""
+};
 
 export default function HeroSection() {
+  const [values, setValues] = useState<HeroFormValues>(initialValues);
+  const [status, setStatus] = useState<SubmitState>("idle");
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const canSubmit = useMemo(() => {
+    return Boolean(values.name && values.email && values.phone);
+  }, [values]);
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!canSubmit || status === "sending") return;
+
+    setStatus("sending");
+    setStatusMessage("Sending your request...");
+
+    try {
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ...values, source: "Hero Form" })
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.error || "Failed to send enquiry.");
+      }
+
+      setStatus("success");
+      setStatusMessage("Thanks! Our team will reach out shortly.");
+      setValues(initialValues);
+    } catch (error) {
+      setStatus("error");
+      setStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
+    }
+  };
+
   return (
     <section
       id="home"
@@ -86,20 +151,69 @@ export default function HeroSection() {
                 Start Your PG Abroad <br /> Journey Today
               </h2>
 
-              <form className="space-y-3">
-                {formFields.map((field) => (
-                  <div key={field.name}>
-                    <label htmlFor={`hero-${field.name}`} className="sr-only">
-                      {field.placeholder}
-                    </label>
-                    <input
-                      id={`hero-${field.name}`}
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
-                    />
-                  </div>
-                ))}
+              <form className="space-y-3" onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="hero-name" className="sr-only">
+                    Name
+                  </label>
+                  <input
+                    id="hero-name"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    required
+                    type="text"
+                    placeholder="Name"
+                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="hero-email" className="sr-only">
+                    Email address
+                  </label>
+                  <input
+                    id="hero-email"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    required
+                    type="email"
+                    placeholder="Email address"
+                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="hero-phone" className="sr-only">
+                    Phone number
+                  </label>
+                  <input
+                    id="hero-phone"
+                    name="phone"
+                    value={values.phone}
+                    onChange={handleChange}
+                    required
+                    type="tel"
+                    placeholder="Phone number"
+                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="hero-city" className="sr-only">
+                    City
+                  </label>
+                  <input
+                    id="hero-city"
+                    name="city"
+                    value={values.city}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="City"
+                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  />
+                </div>
 
                 <div className="relative">
                   <label htmlFor="hero-desired-course" className="sr-only">
@@ -107,9 +221,17 @@ export default function HeroSection() {
                   </label>
                   <select
                     id="hero-desired-course"
+                    name="desiredCourse"
+                    value={values.desiredCourse}
+                    onChange={handleChange}
                     className="w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none"
                   >
-                    <option>Desired Course</option>
+                    <option value="">Desired Course</option>
+                    <option value="MBA">MBA</option>
+                    <option value="MS">MS</option>
+                    <option value="MTech">MTech</option>
+                    <option value="MSc">MSc</option>
+                    <option value="Other">Other</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
@@ -122,9 +244,20 @@ export default function HeroSection() {
                   </label>
                   <select
                     id="hero-preferred-country"
+                    name="preferredCountry"
+                    value={values.preferredCountry}
+                    onChange={handleChange}
                     className="w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none"
                   >
-                    <option>Preferred Country</option>
+                    <option value="">Preferred Country</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Australia">Australia</option>
+                    <option value="USA">USA</option>
+                    <option value="Germany">Germany</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Other">Other</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
@@ -137,20 +270,39 @@ export default function HeroSection() {
                   </label>
                   <select
                     id="hero-intake"
+                    name="intake"
+                    value={values.intake}
+                    onChange={handleChange}
                     className="w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none"
                   >
-                    <option>Intake</option>
+                    <option value="">Intake</option>
+                    <option value="Jan 2026">Jan 2026</option>
+                    <option value="May 2026">May 2026</option>
+                    <option value="Sep 2026">Sep 2026</option>
+                    <option value="Other">Other</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
                   </div>
                 </div>
 
-                <LeadFormTrigger
-                  label="Get Free Counselling"
-                  source="Hero Form CTA"
-                  className="mt-2 w-full rounded-full bg-[#2a2a2a] py-4 text-base font-medium text-white transition-all hover:bg-black active:scale-95"
-                />
+                <button
+                  type="submit"
+                  disabled={!canSubmit || status === "sending"}
+                  className="mt-2 w-full rounded-full bg-[#2a2a2a] py-4 text-base font-medium text-white transition-all hover:bg-black active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {status === "sending" ? "Submitting..." : "Get Free Counselling"}
+                </button>
+
+                {status !== "idle" && (
+                  <p
+                    className={`text-center text-sm ${
+                      status === "success" ? "text-green-700" : status === "error" ? "text-red-700" : "text-gray-600"
+                    }`}
+                  >
+                    {statusMessage}
+                  </p>
+                )}
               </form>
 
               <div className="mt-6 flex justify-center gap-6 text-[10px] font-medium uppercase tracking-widest text-gray-500">
