@@ -32,7 +32,17 @@ export default function HeroSection() {
           
           <div className="order-1 mt-8 flex flex-col items-center text-center md:mt-[350px] md:items-start md:text-left lg:order-none lg:col-span-7 lg:mt-0 lg:pt-80">
             <div className="flex flex-col items-center gap-6 md:items-start lg:gap-6">
-              <div className="flex max-w-xl flex-col items-center justify-start gap-4 pt-8 md:pt-44 lg:pt-44 lg:flex-row lg:items-center">
+              <div className="w-full max-w-[260px] md:hidden">
+                <Image
+                  src="/mobilehro.png"
+                  alt="Graduate"
+                  width={260}
+                  height={220}
+                  priority
+                  className="h-auto w-full"
+                />
+              </div>
+              <div className="flex max-w-xl flex-col items-center justify-start gap-4 pt-4 md:pt-44 lg:pt-44 lg:flex-row lg:items-center">
                 <div className="hidden md:block shrink-0">
                 <Image
                   src="/celebration.png"
