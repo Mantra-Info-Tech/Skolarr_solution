@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     ["Desired Course", lead.desiredCourse || "-"],
     ["Preferred Country", lead.preferredCountry || "-"],
     ["Intake", lead.intake || "-"],
-    ["Source", lead.source || "Website"]
+   
   ];
 
   const textBody = rows.map(([label, value]) => `${label}: ${value}`).join("\n");
