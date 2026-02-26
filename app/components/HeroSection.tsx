@@ -84,18 +84,18 @@ export default function HeroSection() {
   
       <div className="absolute inset-0 z-0 hidden md:block">
         <Image
-          src="/heronew.png" 
+          src="/Countries.png" 
           alt="Graduate background"
           fill
           priority
-          className="object-cover object-left lg:object-center"
+          className="object-contain object-left lg:object-center"
         />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-0">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12">
           
-          <div className="order-1 mt-8 flex flex-col items-center text-center md:mt-[350px] md:items-start md:text-left lg:order-none lg:col-span-7 lg:mt-0 lg:pt-80">
+          <div className="order-1 mt-8 flex flex-col items-center text-center md:mt-0 md:items-start md:text-left lg:order-none lg:col-span-7">
             <div className="flex flex-col items-center gap-6 md:items-start lg:gap-6">
               <div className="w-full max-w-[260px] md:hidden">
                 <Image
@@ -107,7 +107,18 @@ export default function HeroSection() {
                   className="h-auto w-full"
                 />
               </div>
-              <div className="flex max-w-xl flex-col items-center justify-start gap-4 pt-4 md:pt-44 lg:pt-44 lg:flex-row lg:items-center">
+              <div className="hidden w-full max-w-4xl md:flex md:flex-col md:items-start md:justify-start md:gap-4">
+                <Image
+                  src="/mobilehro.png"
+                  alt="Graduate"
+                  width={460}
+                  height={320}
+                  priority
+                  className="h-auto w-full max-w-[460px]"
+                />
+              </div>
+              <div className="flex max-w-xl flex-col items-center justify-start gap-4 pt-4 md:pt-0 lg:flex-row lg:items-center">
+              
                 <div className="hidden md:block shrink-0">
                 <Image
                   src="/celebration.png"
