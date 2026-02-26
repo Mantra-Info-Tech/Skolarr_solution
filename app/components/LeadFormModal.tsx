@@ -4,6 +4,13 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { useLeadForm } from "./LeadFormProvider";
+import SuccessPopup from "./SuccessPopup";
+import {
+  hasValidationErrors,
+  sanitizeLeadInput,
+  validateLeadInput,
+  type LeadFieldErrors
+} from "@/app/lib/leadValidation";
 
 type LeadFormValues = {
   name: string;
@@ -58,12 +65,15 @@ export default function LeadFormModal() {
   const [values, setValues] = useState<LeadFormValues>(initialValues);
   const [status, setStatus] = useState<SubmitState>("idle");
   const [statusMessage, setStatusMessage] = useState<string>("");
+  const [errors, setErrors] = useState<LeadFieldErrors>({});
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
     setValues(initialValues);
     setStatus("idle");
     setStatusMessage("");
+    setErrors({});
   }, [isOpen]);
 
   useEffect(() => {
@@ -86,12 +96,23 @@ export default function LeadFormModal() {
   ) => {
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name as keyof LeadFormValues]: undefined }));
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!canSubmit || status === "sending") return;
 
+    const nextValues = sanitizeLeadInput(values);
+    const validationErrors = validateLeadInput(nextValues);
+    if (hasValidationErrors(validationErrors)) {
+      setErrors(validationErrors);
+      setStatus("error");
+      setStatusMessage("Please correct the highlighted fields.");
+      return;
+    }
+
+    setErrors({});
     setStatus("sending");
     setStatusMessage("Sending your request...");
 
@@ -101,18 +122,27 @@ export default function LeadFormModal() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ ...values, source })
+        body: JSON.stringify({ ...nextValues, source })
       });
 
       if (!response.ok) {
-        const payload = await response.json().catch(() => null);
+        const payload = await response.json().catch(() => null) as
+          | { error?: string; errors?: LeadFieldErrors }
+          | null;
+        if (payload?.errors) {
+          setErrors(payload.errors);
+        }
         throw new Error(payload?.error || "Failed to send enquiry.");
       }
 
       setStatus("success");
-      setStatusMessage("Thanks! Our team will reach out shortly.");
+      setStatusMessage("Thanks! Our team will reach out shortly. Please check your email.");
       setValues(initialValues);
-      window.setTimeout(() => closeLeadForm(), 1600);
+      setShowSuccessPopup(true);
+      window.setTimeout(() => {
+        setShowSuccessPopup(false);
+        closeLeadForm();
+      }, 2200);
     } catch (error) {
       setStatus("error");
       setStatusMessage(
@@ -170,8 +200,11 @@ export default function LeadFormModal() {
                   required
                   type="text"
                   placeholder="Name"
-                  className="w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  className={`w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                    errors.name ? "ring-2 ring-red-300" : ""
+                  }`}
                 />
+                {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
               </div>
               <div>
                 <label htmlFor="lead-email" className="sr-only">
@@ -185,8 +218,11 @@ export default function LeadFormModal() {
                   required
                   type="email"
                   placeholder="Email address"
-                  className="w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  className={`w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                    errors.email ? "ring-2 ring-red-300" : ""
+                  }`}
                 />
+                {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
               </div>
               <div>
                 <label htmlFor="lead-phone" className="sr-only">
@@ -200,8 +236,11 @@ export default function LeadFormModal() {
                   required
                   type="tel"
                   placeholder="Phone number"
-                  className="w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  className={`w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                    errors.phone ? "ring-2 ring-red-300" : ""
+                  }`}
                 />
+                {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
               </div>
               <div>
                 <label htmlFor="lead-city" className="sr-only">
@@ -214,8 +253,11 @@ export default function LeadFormModal() {
                   onChange={handleChange}
                   type="text"
                   placeholder="City"
-                  className="w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                  className={`w-full rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                    errors.city ? "ring-2 ring-red-300" : ""
+                  }`}
                 />
+                {errors.city && <p className="mt-1 text-xs text-red-600">{errors.city}</p>}
               </div>
 
               <div className="relative">
@@ -337,6 +379,10 @@ export default function LeadFormModal() {
           </div>
         </div>
       </div>
+      <SuccessPopup
+        open={showSuccessPopup}
+        message="Your enquiry has been submitted successfully."
+      />
     </div>
   );
 }

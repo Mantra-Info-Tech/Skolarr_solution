@@ -1,9 +1,43 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import {
+  hasValidationErrors,
+  sanitizeLeadInput,
+  validateLeadInput
+} from "@/app/lib/leadValidation";
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const fromEmail = process.env.RESEND_FROM;
 const toEmail = process.env.RESEND_TO;
+const ccEmails = (process.env.RESEND_CC || "")
+  .split(",")
+  .map((email) => email.trim())
+  .filter(Boolean);
+
+type ResendEmailPayload = {
+  from: string;
+  to: string[];
+  cc?: string[];
+  reply_to?: string;
+  subject: string;
+  text: string;
+  html: string;
+};
+
+async function sendResendEmail(payload: ResendEmailPayload) {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.text().catch(() => "");
+    throw new Error(`Resend API error: ${response.status} ${errorBody}`);
+  }
+}
 
 export async function POST(request: Request) {
   if (!resendApiKey || !fromEmail || !toEmail) {
@@ -18,44 +52,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid payload." }, { status: 400 });
   }
 
-  const {
-    name,
-    email,
-    phone,
-    city,
-    desiredCourse,
-    preferredCountry,
-    intake,
-    source
-  } = payload as {
-    name?: string;
-    email?: string;
-    phone?: string;
-    city?: string;
-    desiredCourse?: string;
-    preferredCountry?: string;
-    intake?: string;
-    source?: string;
-  };
+  const lead = sanitizeLeadInput(payload as Record<string, string | undefined>);
+  const errors = validateLeadInput(lead);
 
-  if (!name || !email || !phone) {
+  if (hasValidationErrors(errors)) {
     return NextResponse.json(
-      { error: "Name, email, and phone are required." },
+      { error: "Please correct form errors and try again.", errors },
       { status: 400 }
     );
   }
 
-  const resend = new Resend(resendApiKey);
-
   const rows = [
-    ["Name", name],
-    ["Email", email],
-    ["Phone", phone],
-    ["City", city || "-"],
-    ["Desired Course", desiredCourse || "-"],
-    ["Preferred Country", preferredCountry || "-"],
-    ["Intake", intake || "-"],
-    ["Source", source || "Website"]
+    ["Name", lead.name],
+    ["Email", lead.email],
+    ["Phone", lead.phone],
+    ["City", lead.city || "-"],
+    ["Desired Course", lead.desiredCourse || "-"],
+    ["Preferred Country", lead.preferredCountry || "-"],
+    ["Intake", lead.intake || "-"],
+    ["Source", lead.source || "Website"]
   ];
 
   const textBody = rows.map(([label, value]) => `${label}: ${value}`).join("\n");
@@ -78,24 +93,30 @@ export async function POST(request: Request) {
   `;
 
   try {
-    await resend.emails.send({
+    await sendResendEmail({
       from: fromEmail,
       to: [toEmail],
-      replyTo: email,
-      subject: `New counselling enquiry from ${name}`,
+      cc: ccEmails.length ? ccEmails : undefined,
+      reply_to: lead.email,
+      subject: `New counselling enquiry from ${lead.name}`,
       text: textBody,
       html: htmlBody
     });
 
-    if (process.env.RESEND_SEND_CONFIRMATION === "true") {
-      await resend.emails.send({
-        from: fromEmail,
-        to: [email],
-        subject: "We received your request",
-        text: "Thanks for contacting Skolarrs Solutions. Our team will reach out shortly.",
-        html: "<p>Thanks for contacting Skolarrs Solutions. Our team will reach out shortly.</p>"
-      });
-    }
+    await sendResendEmail({
+      from: fromEmail,
+      to: [lead.email],
+      subject: "We received your request",
+      text: `Hi ${lead.name},\n\nThank you for contacting Skolarrs Solutions. We have received your enquiry and our team will reach out shortly.\n\nRegards,\nSkolarrs Solutions`,
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #1a1a1a; line-height: 1.6;">
+          <p>Hi ${lead.name},</p>
+          <p>Thank you for contacting Skolarrs Solutions.</p>
+          <p>We have received your enquiry and our team will reach out shortly.</p>
+          <p>Regards,<br/>Skolarrs Solutions</p>
+        </div>
+      `
+    });
 
     return NextResponse.json({ ok: true });
   } catch (error) {

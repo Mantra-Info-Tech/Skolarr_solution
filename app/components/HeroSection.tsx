@@ -3,6 +3,13 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import SuccessPopup from "./SuccessPopup";
+import {
+  hasValidationErrors,
+  sanitizeLeadInput,
+  validateLeadInput,
+  type LeadFieldErrors
+} from "@/app/lib/leadValidation";
 
 type HeroFormValues = {
   name: string;
@@ -30,6 +37,8 @@ export default function HeroSection() {
   const [values, setValues] = useState<HeroFormValues>(initialValues);
   const [status, setStatus] = useState<SubmitState>("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const [errors, setErrors] = useState<LeadFieldErrors>({});
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const canSubmit = useMemo(() => {
     return Boolean(values.name && values.email && values.phone);
@@ -40,12 +49,23 @@ export default function HeroSection() {
   ) => {
     const { name, value } = event.target;
     setValues((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name as keyof HeroFormValues]: undefined }));
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!canSubmit || status === "sending") return;
 
+    const nextValues = sanitizeLeadInput(values);
+    const validationErrors = validateLeadInput(nextValues);
+    if (hasValidationErrors(validationErrors)) {
+      setErrors(validationErrors);
+      setStatus("error");
+      setStatusMessage("Please correct the highlighted fields.");
+      return;
+    }
+
+    setErrors({});
     setStatus("sending");
     setStatusMessage("Sending your request...");
 
@@ -55,17 +75,24 @@ export default function HeroSection() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ ...values, source: "Hero Form" })
+        body: JSON.stringify({ ...nextValues, source: "Hero Form" })
       });
 
       if (!response.ok) {
-        const payload = await response.json().catch(() => null);
+        const payload = await response.json().catch(() => null) as
+          | { error?: string; errors?: LeadFieldErrors }
+          | null;
+        if (payload?.errors) {
+          setErrors(payload.errors);
+        }
         throw new Error(payload?.error || "Failed to send enquiry.");
       }
 
       setStatus("success");
-      setStatusMessage("Thanks! Our team will reach out shortly.");
+      setStatusMessage("Thanks! Our team will reach out shortly. Please check your email.");
       setValues(initialValues);
+      setShowSuccessPopup(true);
+      window.setTimeout(() => setShowSuccessPopup(false), 2400);
     } catch (error) {
       setStatus("error");
       setStatusMessage(
@@ -175,8 +202,11 @@ export default function HeroSection() {
                     required
                     type="text"
                     placeholder="Name"
-                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                      errors.name ? "ring-2 ring-red-300" : ""
+                    }`}
                   />
+                  {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
                 </div>
 
                 <div>
@@ -191,8 +221,11 @@ export default function HeroSection() {
                     required
                     type="email"
                     placeholder="Email address"
-                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                      errors.email ? "ring-2 ring-red-300" : ""
+                    }`}
                   />
+                  {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
                 </div>
 
                 <div>
@@ -207,8 +240,11 @@ export default function HeroSection() {
                     required
                     type="tel"
                     placeholder="Phone number"
-                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                      errors.phone ? "ring-2 ring-red-300" : ""
+                    }`}
                   />
+                  {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
                 </div>
 
                 <div>
@@ -222,8 +258,11 @@ export default function HeroSection() {
                     onChange={handleChange}
                     type="text"
                     placeholder="City"
-                    className="w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40]"
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
+                      errors.city ? "ring-2 ring-red-300" : ""
+                    }`}
                   />
+                  {errors.city && <p className="mt-1 text-xs text-red-600">{errors.city}</p>}
                 </div>
 
                 <div className="relative">
@@ -328,6 +367,10 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+      <SuccessPopup
+        open={showSuccessPopup}
+        message="Your enquiry has been submitted successfully."
+      />
     </section>
   );
 }
