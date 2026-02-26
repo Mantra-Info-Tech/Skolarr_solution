@@ -27,13 +27,28 @@ export default function LeadFormProvider({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [source, setSource] = useState<string | undefined>(undefined);
+  const [hasCtaInteraction, setHasCtaInteraction] = useState(false);
+  const [autoPromptDone, setAutoPromptDone] = useState(false);
 
   const openLeadForm = (nextSource?: string) => {
+    setHasCtaInteraction(true);
     setSource(nextSource);
     setIsOpen(true);
   };
 
   const closeLeadForm = () => setIsOpen(false);
+
+  useEffect(() => {
+    if (hasCtaInteraction || autoPromptDone) return;
+
+    const timer = window.setTimeout(() => {
+      setSource("Auto Prompt");
+      setIsOpen(true);
+      setAutoPromptDone(true);
+    }, 15000);
+
+    return () => window.clearTimeout(timer);
+  }, [hasCtaInteraction, autoPromptDone]);
 
   useEffect(() => {
     if (!isOpen) {
