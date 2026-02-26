@@ -28,3 +28,13 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/* Hide scrollbar while preserving scroll behavior */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

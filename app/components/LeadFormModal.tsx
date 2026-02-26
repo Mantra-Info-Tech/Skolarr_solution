@@ -127,7 +127,7 @@ export default function LeadFormModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[60] overflow-y-auto bg-black/70 p-4 md:p-6"
+      className="no-scrollbar fixed inset-0 z-[60] overflow-y-auto bg-black/70 p-4 md:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lead-form-title"
@@ -137,18 +137,18 @@ export default function LeadFormModal() {
         }
       }}
     >
-      <div className="relative mx-auto my-auto max-h-[calc(100dvh-2rem)] w-full max-w-5xl overflow-y-auto rounded-[2rem] bg-white p-5 shadow-2xl md:p-8">
+      <div className="relative mx-auto my-auto flex w-[min(92vw,1100px)] max-h-[min(90dvh,820px)] flex-col overflow-hidden rounded-[2rem] bg-white shadow-2xl">
         <button
           type="button"
           onClick={closeLeadForm}
           aria-label="Close form"
-          className="absolute right-5 top-5 text-2xl text-gray-700 hover:text-black"
+          className="absolute right-4 top-4 z-10 text-2xl text-gray-700 hover:text-black md:right-5 md:top-5"
         >
           ×
         </button>
 
-        <div className="grid gap-8 md:grid-cols-[1fr_1.1fr]">
-          <div className="rounded-[1.75rem] bg-[#fbfbfb] p-6 md:p-8">
+        <div className="no-scrollbar grid flex-1 gap-5 overflow-y-auto p-4 sm:p-5 md:grid-cols-[1fr_1.05fr] md:gap-6 md:p-6 lg:gap-8 lg:p-8">
+          <div className="rounded-[1.75rem] bg-[#fbfbfb] p-5 sm:p-6 md:p-7">
             <h2
               id="lead-form-title"
               className="text-center text-xl font-semibold text-[#1a1a1a] md:text-2xl"
@@ -316,20 +316,20 @@ export default function LeadFormModal() {
             </div>
           </div>
 
-          <div className="hidden md:flex flex-col items-center justify-center gap-6 px-4 py-4 text-center">
+          <div className="hidden md:flex flex-col items-center justify-center gap-5 px-2 py-2 text-center lg:gap-6">
             <Image
               src="/logo.png"
               alt="Skolarrs Solutions"
               width={200}
               height={90}
-              className="h-auto w-48 md:w-52"
+              className="h-auto w-40 md:w-44 lg:w-52"
             />
             <Image
               src="/popup.png"
               alt="Student"
               width={640}
               height={820}
-              className="h-auto w-full max-w-[320px] md:max-w-[400px] lg:max-w-[460px]"
+              className="h-auto w-full max-w-[260px] md:max-w-[320px] lg:max-w-[420px]"
             />
             <p className="text-sm font-medium text-gray-600">
               Learn Beyond Boundaries
