@@ -135,7 +135,7 @@ const Footer = () => {
             <span className="text-[#a67c52] font-medium">© {currentYear}</span> Skolarrs Solutions . All Rights Reserved
           </p>
           <p className="opacity-80">
-            Designed&Developed By 
+            Designed&Developed By &nbsp;&nbsp;
             <a
               href="https://web.mantrainfotechs.com"
               target="_blank"
