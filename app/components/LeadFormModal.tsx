@@ -391,14 +391,14 @@ export default function LeadFormModal() {
               alt="Skolarrs Solutions"
               width={340}
               height={170}
-              className="absolute left-1/2 top-14 z-10 h-auto w-[220px] -translate-x-1/2 lg:top-14 lg:w-[340px]"
+              className="absolute left-1/2 top-14 z-10 h-auto w-[220px] -translate-x-1/2 lg:top-14 lg:w-[220px]"
             />
             <Image
-              src="/popup.png"
+              src="/popupnew.png"
               alt="Student"
               width={780}
               height={940}
-              className="absolute bottom-0 left-1/2 h-auto w-[86%] max-w-none -translate-x-1/2 object-contain lg:w-[94%]"
+              className="absolute bottom-0 left-1/2 h-auto w-[45%] max-w-none -translate-x-1/2 object-contain lg:w-[70%]"
             />
           </div>
         </div>
