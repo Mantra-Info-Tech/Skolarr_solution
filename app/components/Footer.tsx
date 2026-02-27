@@ -53,7 +53,7 @@ const Footer = () => {
               <h4 className="text-[#a67c52] font-medium text-lg">Contact Us</h4>
               <div className="text-gray-800 font-medium space-y-2">
                 <p>0422-4370044</p>
-                <p>+91 9514513331</p>
+                <p>+91 9790 444 443</p>
                 <p className="break-all">info@skolarrssolutions.com</p>
                 <Link href="skolarrssolutions.com" className="text-[#a67c52] hover:underline">
                  skolarrssolutions.com
