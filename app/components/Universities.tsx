@@ -27,7 +27,34 @@ const universityData = {
     { name: "University College Cork", domain: "ucc.ie", logo: "University_college_Cork.webp" },
     { name: "Dublin City University", domain: "dublincityuniversity.ie", logo: "Dublin_City_University.png" },
   ],
-  // Add USA, Australia, France, etc., from your PDF list
+  Australia: [
+    { name: "University of New South Wales, Sydney", domain: "unsw.edu.au", logo: "University_of_New_South_Wales_Sydney.webp" },
+    { name: "University of Western Australia", domain: "uwa.edu.au", logo: "University_of_Western_Australia.webp" },
+    { name: "University of Technology Sydney", domain: "uts.edu.au", logo: "University_of_Technology_Sydney.webp" },
+    { name: "Queensland University of Technology", domain: "qut.edu.au", logo: "QUT.png" },
+    { name: "Deakin University", domain: "deakin.edu.au", logo: "Deakin_University.webp" },
+    { name: "Griffith University", domain: "griffith.edu.au", logo: "Griffith_University.webp" },
+  ],
+  "United States of America": [
+    { name: "(INTO) Oregon State University", domain: "oregonstate.edu", logo: "Oregon_state_university.svg" },
+    { name: "State University of New York at Buffalo (SUNY Buffalo)", domain: "buffalo.edu", logo: "State_University_of_New_York_at_Buffalo.png" },
+    { name: "University of Central Florida", domain: "ucf.edu", logo: "University_of_Central_Florida.webp" },
+    { name: "Virginia Commonwealth University", domain: "vcu.edu", logo: "Virginia_Commonwealth_University.jpg" },
+    { name: "University of Maryland Baltimore County", domain: "umbc.edu", logo: "UMBC.png" },
+  ],
+  France: [
+    { name: "KEDGE Business School", domain: "kedge.edu", logo: "KEDGE_Business_School.webp" },
+    { name: "NEOMA Business School", domain: "neoma-bs.com", logo: "NEOMA.png" },
+    { name: "Skema Business School", domain: "skema.edu", logo: "Skema_Business_School_Paris.jpg" },
+    { name: "Burgundy School of Business", domain: "bsb-education.com", logo: "Burgundy_School_of_Business.jpg" },
+    { name: "MBA ESG, Paris", domain: "mba-esg.com", logo: "MBA_ESG.png" },
+  ],
+ 
+  Germany: [
+    { name: "GISMA University of Applied Sciences", domain: "gisma.com", logo: "GISMA_University.webp" },
+    { name: "University of Europe for Applied Sciences", domain: "ue-germany.com", logo: "University_of_Europe_for_Applied_Sciences.jpg" },
+    { name: "Fresenius University of Applied Sciences", domain: "hs-fresenius.com", logo: "Fresenius_University_of_Applied_Sciences.jpg" },
+  ],
 };
 
 export default function UniversitySection() {
