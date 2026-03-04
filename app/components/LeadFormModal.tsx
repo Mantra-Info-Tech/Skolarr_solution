@@ -11,6 +11,11 @@ import {
   validateLeadInput,
   type LeadFieldErrors
 } from "@/app/lib/leadValidation";
+import {
+  desiredCourseOptions,
+  getIntakeOptionsForCountry,
+  preferredCountryOptions
+} from "@/app/lib/leadFormOptions";
 
 type LeadFormValues = {
   name: string;
@@ -23,39 +28,6 @@ type LeadFormValues = {
 };
 
 type SubmitState = "idle" | "sending" | "success" | "error";
-
-const desiredCourseOptions = [
-  "MBBS",
-  "MBA",
-  "MS",
-  "MSc",
-  "Other PG Courses"
-];
-
-const preferredCountryOptions = [
-  "United Kingdom",
-  "Canada",
-  "Ireland",
-  "Australia",
-  "USA",
-  "Germany",
-  "New Zealand",
-  "France",
-  "United Arab Emirates",
-  "Netherlands",
-  "Finland",
-  "Italy",
-  "Malaysia",
-  "Switzerland",
-  "Other"
-];
-
-const intakeOptions = [
-  "Jan 2026",
-  "May 2026",
-  "Sep 2026",
-  "Other"
-];
 
 const initialValues: LeadFormValues = {
   name: "",
@@ -106,11 +78,25 @@ export default function LeadFormModal() {
     );
   }, [values]);
 
+  const intakeOptions = useMemo(
+    () => getIntakeOptionsForCountry(values.preferredCountry),
+    [values.preferredCountry]
+  );
+
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
+    setValues((prev) => {
+      if (name === "preferredCountry") {
+        return {
+          ...prev,
+          preferredCountry: value,
+          intake: ""
+        };
+      }
+      return { ...prev, [name]: value };
+    });
     setErrors((prev) => ({ ...prev, [name as keyof LeadFormValues]: undefined }));
   };
 
@@ -348,7 +334,7 @@ export default function LeadFormModal() {
                     errors.intake ? "ring-2 ring-red-300" : ""
                   }`}
                 >
-                  <option value="">Intake</option>
+                  <option value="">{values.preferredCountry ? "Select Intake" : "Select Country First"}</option>
                   {intakeOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}

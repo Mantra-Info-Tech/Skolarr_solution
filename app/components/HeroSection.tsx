@@ -10,6 +10,11 @@ import {
   validateLeadInput,
   type LeadFieldErrors
 } from "@/app/lib/leadValidation";
+import {
+  desiredCourseOptions,
+  getIntakeOptionsForCountry,
+  preferredCountryOptions
+} from "@/app/lib/leadFormOptions";
 
 type HeroFormValues = {
   name: string;
@@ -52,11 +57,25 @@ export default function HeroSection() {
     );
   }, [values]);
 
+  const intakeOptions = useMemo(
+    () => getIntakeOptionsForCountry(values.preferredCountry),
+    [values.preferredCountry]
+  );
+
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
+    setValues((prev) => {
+      if (name === "preferredCountry") {
+        return {
+          ...prev,
+          preferredCountry: value,
+          intake: ""
+        };
+      }
+      return { ...prev, [name]: value };
+    });
     setErrors((prev) => ({ ...prev, [name as keyof HeroFormValues]: undefined }));
   };
 
@@ -289,11 +308,11 @@ export default function HeroSection() {
                     }`}
                   >
                     <option value="">Desired Course</option>
-                    <option value="MBBS">MBBS</option>
-                    <option value="MBA">MBA</option>
-                    <option value="MSc">MSc</option>
-                    <option value="MS">MS</option>
-                    <option value="Other PG Courses">Other PG Courses</option>
+                    {desiredCourseOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
@@ -318,21 +337,11 @@ export default function HeroSection() {
                     }`}
                   >
                     <option value="">Preferred Country</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Ireland">Ireland</option>
-                    <option value="Australia">Australia</option>
-                    <option value="USA">USA</option>
-                    <option value="Germany">Germany</option>
-                    <option value="New Zealand">New Zealand</option>
-                    <option value="France">France</option>
-                    <option value="United Arab Emirates">United Arab Emirates</option>
-                    <option value="Netherlands">Netherlands</option>
-                    <option value="Finland">Finland</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Malaysia">Malaysia</option>
-                    <option value="Switzerland">Switzerland</option>
-                    <option value="Other">Other</option>
+                    {preferredCountryOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
@@ -356,11 +365,14 @@ export default function HeroSection() {
                       errors.intake ? "ring-2 ring-red-300" : ""
                     }`}
                   >
-                    <option value="">Intake</option>
-                    <option value="Jan 2026">Jan 2026</option>
-                    <option value="May 2026">May 2026</option>
-                    <option value="Sep 2026">Sep 2026</option>
-                    <option value="Other">Other</option>
+                    <option value="">
+                      {values.preferredCountry ? "Select Intake" : "Select Country First"}
+                    </option>
+                    {intakeOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
