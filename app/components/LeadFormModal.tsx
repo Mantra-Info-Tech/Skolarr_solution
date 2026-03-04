@@ -197,7 +197,7 @@ export default function LeadFormModal() {
               id="lead-form-title"
               className="text-center text-xl font-semibold text-[#1a1a1a] md:text-2xl"
             >
-              Start Your PG Abroad <br /> Journey Today
+              Start Your PG {isDomesticFlow ? "" : "Abroad"} <br /> Journey Today
             </h2>
             <div className="my-5 h-px w-full bg-gray-200" />
 
