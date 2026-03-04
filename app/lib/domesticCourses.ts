@@ -7,6 +7,7 @@ export const domesticCourseCategories: DomesticCourseCategory[] = [
   {
     title: "Medical Courses - India",
     courses: [
+      "Study MBBS in India",
       "MBBS (Bachelor of Medicine and Bachelor of Surgery)",
       "BDS (Bachelor of Dental Surgery)",
       "BAMS (Bachelor of Ayurvedic Medicine and Surgery)",
@@ -240,6 +241,7 @@ export const domesticCourseCategories: DomesticCourseCategory[] = [
   }
 ];
 
-export const domesticDesiredCourseOptions = domesticCourseCategories.flatMap(
-  (category) => [category.title]
-);
+export const domesticDesiredCourseOptions = [
+  "Study MBBS in India",
+  ...domesticCourseCategories.map((category) => category.title)
+];

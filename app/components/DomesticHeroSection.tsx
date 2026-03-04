@@ -120,14 +120,27 @@ export default function DomesticHeroSection() {
       id="home"
       className="relative flex w-full items-center overflow-hidden bg-[#e8e8e8] py-12 lg:min-h-[800px]"
     >
-      <div className="absolute inset-0 z-0 hidden md:block">
-        <Image
-          src="/Hero_Domestic-2.png"
-          alt="Graduate background"
-          fill
-          priority
-          className="object-cover object-left lg:object-center"
-        />
+      <div className="absolute inset-0 z-0  ">
+       <div className="hidden md:block">
+  <Image
+    src="/Hero_Domestic-2.png"
+    alt="Graduate background"
+    fill
+    priority
+    className="object-cover object-left lg:object-center"
+  />
+</div>
+
+{/* Mobile Image */}
+<div className="block md:hidden">
+  <Image
+    src="/Hero_Domestic_Mob.png"
+    alt="Graduate background"
+    fill
+    priority
+    className="object-cover"
+  />
+</div>
       </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-0">

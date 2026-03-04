@@ -11,13 +11,18 @@ export default function DomesticCoursesSection() {
           </p>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-4">
           {domesticCourseCategories.map((category) => (
-            <article
+            <details
               key={category.title}
-              className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm"
+              className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-sm"
             >
-              <h3 className="text-2xl font-semibold text-[#1a1a1a]">{category.title}</h3>
+              <summary className="cursor-pointer list-none text-xl font-semibold text-[#1a1a1a] md:text-2xl">
+                <div className="flex items-center justify-between gap-4">
+                  <span>{category.title}</span>
+                  <span className="text-sm text-gray-500">{category.courses.length} courses</span>
+                </div>
+              </summary>
               <ul className="mt-4 grid grid-cols-1 gap-2 border-t border-gray-100 pt-4 md:grid-cols-2">
                 {category.courses.map((course) => (
                   <li key={course} className="text-sm leading-relaxed text-gray-700">
@@ -25,7 +30,7 @@ export default function DomesticCoursesSection() {
                   </li>
                 ))}
               </ul>
-            </article>
+            </details>
           ))}
         </div>
       </div>

@@ -1,3 +1,6 @@
+import { domesticDesiredCourseOptions } from "@/app/lib/domesticCourses";
+import { desiredCourseOptions } from "@/app/lib/leadFormOptions";
+
 export type LeadInput = {
   name: string;
   email: string;
@@ -61,6 +64,16 @@ export function validateLeadInput(input: LeadInput): LeadFieldErrors {
 
   if (!input.desiredCourse) {
     errors.desiredCourse = "Desired course is required.";
+  } else if (
+    input.studyMode === "domestic" &&
+    !domesticDesiredCourseOptions.includes(input.desiredCourse)
+  ) {
+    errors.desiredCourse = "Please select a valid domestic course.";
+  } else if (
+    input.studyMode === "abroad" &&
+    !desiredCourseOptions.includes(input.desiredCourse as (typeof desiredCourseOptions)[number])
+  ) {
+    errors.desiredCourse = "Please select a valid desired course.";
   }
 
   if (input.studyMode === "abroad") {
