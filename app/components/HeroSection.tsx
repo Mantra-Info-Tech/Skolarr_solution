@@ -289,11 +289,11 @@ export default function HeroSection() {
                     }`}
                   >
                     <option value="">Desired Course</option>
+                    <option value="MBBS">MBBS</option>
                     <option value="MBA">MBA</option>
-                    <option value="MS">MS</option>
-                    <option value="MTech">MTech</option>
                     <option value="MSc">MSc</option>
-                    <option value="Other">Other</option>
+                    <option value="MS">MS</option>
+                    <option value="Other PG Courses">Other PG Courses</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
                     <span className="text-xs">▼</span>
@@ -325,6 +325,13 @@ export default function HeroSection() {
                     <option value="USA">USA</option>
                     <option value="Germany">Germany</option>
                     <option value="New Zealand">New Zealand</option>
+                    <option value="France">France</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Finland">Finland</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Switzerland">Switzerland</option>
                     <option value="Other">Other</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">

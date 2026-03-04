@@ -25,11 +25,11 @@ type LeadFormValues = {
 type SubmitState = "idle" | "sending" | "success" | "error";
 
 const desiredCourseOptions = [
+  "MBBS",
   "MBA",
   "MS",
-  "MTech",
   "MSc",
-  "Other"
+  "Other PG Courses"
 ];
 
 const preferredCountryOptions = [
@@ -40,6 +40,13 @@ const preferredCountryOptions = [
   "USA",
   "Germany",
   "New Zealand",
+  "France",
+  "United Arab Emirates",
+  "Netherlands",
+  "Finland",
+  "Italy",
+  "Malaysia",
+  "Switzerland",
   "Other"
 ];
 
