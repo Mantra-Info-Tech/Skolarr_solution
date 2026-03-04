@@ -113,7 +113,10 @@ export default function LeadFormModal() {
     event.preventDefault();
     if (!canSubmit || status === "sending") return;
 
-    const nextValues = sanitizeLeadInput(values);
+    const nextValues = sanitizeLeadInput({
+      ...values,
+      studyMode: isDomesticFlow ? "domestic" : "abroad"
+    });
     const validationErrors = validateLeadInput(nextValues);
     if (hasValidationErrors(validationErrors)) {
       setErrors(validationErrors);
