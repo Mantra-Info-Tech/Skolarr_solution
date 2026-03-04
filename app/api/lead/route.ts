@@ -63,14 +63,19 @@ export async function POST(request: Request) {
   }
 
   const rows = [
+    ["Study Mode", lead.studyMode === "domestic" ? "Domestic" : "Abroad"],
     ["Name", lead.name],
     ["Email", lead.email],
     ["Phone", lead.phone],
     ["City", lead.city || "-"],
     ["Desired Course", lead.desiredCourse || "-"],
-    ["Preferred Country", lead.preferredCountry || "-"],
-    ["Intake", lead.intake || "-"],
-   
+    ...(lead.studyMode === "abroad"
+      ? [
+          ["Preferred Country", lead.preferredCountry || "-"],
+          ["Intake", lead.intake || "-"]
+        ]
+      : []),
+    ["Source", lead.source || "-"]
   ];
 
   const textBody = rows.map(([label, value]) => `${label}: ${value}`).join("\n");
@@ -98,7 +103,7 @@ export async function POST(request: Request) {
       to: [toEmail],
       cc: ccEmails.length ? ccEmails : undefined,
       reply_to: lead.email,
-      subject: `New counselling enquiry from ${lead.name}`,
+      subject: `New ${lead.studyMode === "domestic" ? "Domestic" : "Abroad"} counselling enquiry from ${lead.name}`,
       text: textBody,
       html: htmlBody
     });
@@ -107,12 +112,12 @@ export async function POST(request: Request) {
       from: fromEmail,
       to: [lead.email],
       subject: "We received your request",
-      text: `Hi ${lead.name},\n\nThank you for contacting Skolarrs Solutions. We have received your enquiry and our team will reach out shortly.\n\nRegards,\nSkolarrs Solutions`,
+      text: `Hi ${lead.name},\n\nThank you for contacting Skolarrs Solutions. We have received your ${lead.studyMode === "domestic" ? "domestic" : "abroad"} counselling enquiry and our team will reach out shortly.\n\nRegards,\nSkolarrs Solutions`,
       html: `
         <div style="font-family: Arial, sans-serif; color: #1a1a1a; line-height: 1.6;">
           <p>Hi ${lead.name},</p>
           <p>Thank you for contacting Skolarrs Solutions.</p>
-          <p>We have received your enquiry and our team will reach out shortly.</p>
+          <p>We have received your ${lead.studyMode === "domestic" ? "domestic" : "abroad"} counselling enquiry and our team will reach out shortly.</p>
           <p>Regards,<br/>Skolarrs Solutions</p>
         </div>
       `

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import { usePathname } from "next/navigation";
 import { useLeadForm } from "./LeadFormProvider";
 import SuccessPopup from "./SuccessPopup";
 import {
@@ -16,6 +17,7 @@ import {
   getIntakeOptionsForCountry,
   preferredCountryOptions
 } from "@/app/lib/leadFormOptions";
+import { domesticDesiredCourseOptions } from "@/app/lib/domesticCourses";
 
 type LeadFormValues = {
   name: string;
@@ -41,11 +43,14 @@ const initialValues: LeadFormValues = {
 
 export default function LeadFormModal() {
   const { isOpen, closeLeadForm, source } = useLeadForm();
+  const pathname = usePathname();
   const [values, setValues] = useState<LeadFormValues>(initialValues);
   const [status, setStatus] = useState<SubmitState>("idle");
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [errors, setErrors] = useState<LeadFieldErrors>({});
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+  const isDomesticFlow = pathname?.startsWith("/domestic");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -67,21 +72,25 @@ export default function LeadFormModal() {
   }, [isOpen, closeLeadForm]);
 
   const canSubmit = useMemo(() => {
-    return Boolean(
+    const hasCoreFields = Boolean(
       values.name &&
         values.email &&
         values.phone &&
         values.city &&
-        values.desiredCourse &&
-        values.preferredCountry &&
-        values.intake
+        values.desiredCourse
     );
-  }, [values]);
+
+    if (isDomesticFlow) return hasCoreFields;
+    return Boolean(hasCoreFields && values.preferredCountry && values.intake);
+  }, [isDomesticFlow, values]);
 
   const intakeOptions = useMemo(
     () => getIntakeOptionsForCountry(values.preferredCountry),
     [values.preferredCountry]
   );
+  const activeDesiredCourseOptions = isDomesticFlow
+    ? domesticDesiredCourseOptions
+    : desiredCourseOptions;
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -124,6 +133,7 @@ export default function LeadFormModal() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ ...nextValues, source })
+        
       });
 
       if (!response.ok) {
@@ -277,7 +287,7 @@ export default function LeadFormModal() {
                   }`}
                 >
                   <option value="">Desired Course</option>
-                  {desiredCourseOptions.map((option) => (
+                  {activeDesiredCourseOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
@@ -295,57 +305,65 @@ export default function LeadFormModal() {
                 <label htmlFor="lead-preferred-country" className="sr-only">
                   Preferred Country
                 </label>
-                <select
-                  id="lead-preferred-country"
-                  name="preferredCountry"
-                  value={values.preferredCountry}
-                  onChange={handleChange}
-                  required
-                  className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
-                    errors.preferredCountry ? "ring-2 ring-red-300" : ""
-                  }`}
-                >
-                  <option value="">Preferred Country</option>
-                  {preferredCountryOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
-                  <span className="text-xs">▼</span>
-                </div>
+                {!isDomesticFlow && (
+                  <>
+                    <select
+                      id="lead-preferred-country"
+                      name="preferredCountry"
+                      value={values.preferredCountry}
+                      onChange={handleChange}
+                      required
+                      className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                        errors.preferredCountry ? "ring-2 ring-red-300" : ""
+                      }`}
+                    >
+                      <option value="">Preferred Country</option>
+                      {preferredCountryOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                      <span className="text-xs">▼</span>
+                    </div>
+                  </>
+                )}
               </div>
-              {errors.preferredCountry && (
+              {!isDomesticFlow && errors.preferredCountry && (
                 <p className="mt-1 text-xs text-red-600">{errors.preferredCountry}</p>
               )}
 
-              <div className="relative">
-                <label htmlFor="lead-intake" className="sr-only">
-                  Intake
-                </label>
-                <select
-                  id="lead-intake"
-                  name="intake"
-                  value={values.intake}
-                  onChange={handleChange}
-                  required
-                  className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
-                    errors.intake ? "ring-2 ring-red-300" : ""
-                  }`}
-                >
-                  <option value="">{values.preferredCountry ? "Select Intake" : "Select Country First"}</option>
-                  {intakeOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
+              {!isDomesticFlow && (
+                <div className="relative">
+                  <label htmlFor="lead-intake" className="sr-only">
+                    Intake
+                  </label>
+                  <select
+                    id="lead-intake"
+                    name="intake"
+                    value={values.intake}
+                    onChange={handleChange}
+                    required
+                    className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                      errors.intake ? "ring-2 ring-red-300" : ""
+                    }`}
+                  >
+                    <option value="">
+                      {values.preferredCountry ? "Select Intake" : "Select Country First"}
                     </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
-                  <span className="text-xs">▼</span>
+                    {intakeOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                    <span className="text-xs">▼</span>
+                  </div>
                 </div>
-              </div>
-              {errors.intake && (
+              )}
+              {!isDomesticFlow && errors.intake && (
                 <p className="mt-1 text-xs text-red-600">{errors.intake}</p>
               )}
 
@@ -391,7 +409,9 @@ export default function LeadFormModal() {
               alt="Student"
               width={780}
               height={940}
-              className="absolute bottom-0 left-1/2 h-auto w-[45%] max-w-none -translate-x-1/2 object-contain lg:w-[70%]"
+              className={`absolute bottom-0 left-1/2 h-auto max-w-none -translate-x-1/2 object-contain ${
+                isDomesticFlow ? "w-[30%] lg:w-[48%]" : "w-[45%] lg:w-[70%]"
+              }`}
             />
           </div>
         </div>

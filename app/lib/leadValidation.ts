@@ -6,6 +6,7 @@ export type LeadInput = {
   desiredCourse: string;
   preferredCountry: string;
   intake: string;
+  studyMode: string;
   source?: string;
 };
 
@@ -15,6 +16,9 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^[+]?[\d\s\-()]{7,20}$/;
 
 export function sanitizeLeadInput(input: Partial<LeadInput>): LeadInput {
+  const rawMode = (input.studyMode || "abroad").trim().toLowerCase();
+  const studyMode = rawMode === "domestic" ? "domestic" : "abroad";
+
   return {
     name: (input.name || "").trim(),
     email: (input.email || "").trim(),
@@ -23,6 +27,7 @@ export function sanitizeLeadInput(input: Partial<LeadInput>): LeadInput {
     desiredCourse: (input.desiredCourse || "").trim(),
     preferredCountry: (input.preferredCountry || "").trim(),
     intake: (input.intake || "").trim(),
+    studyMode,
     source: (input.source || "Website").trim()
   };
 }
@@ -58,12 +63,14 @@ export function validateLeadInput(input: LeadInput): LeadFieldErrors {
     errors.desiredCourse = "Desired course is required.";
   }
 
-  if (!input.preferredCountry) {
-    errors.preferredCountry = "Preferred country is required.";
-  }
+  if (input.studyMode === "abroad") {
+    if (!input.preferredCountry) {
+      errors.preferredCountry = "Preferred country is required.";
+    }
 
-  if (!input.intake) {
-    errors.intake = "Intake is required.";
+    if (!input.intake) {
+      errors.intake = "Intake is required.";
+    }
   }
 
   return errors;

@@ -102,7 +102,11 @@ export default function HeroSection() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ ...nextValues, source: "Hero Form" })
+        body: JSON.stringify({
+          ...nextValues,
+          source: "Hero Form",
+          studyMode: "abroad"
+        })
       });
 
       if (!response.ok) {
