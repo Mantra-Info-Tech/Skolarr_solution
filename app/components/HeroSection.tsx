@@ -157,7 +157,7 @@ export default function HeroSection() {
             <div className="flex flex-col items-center gap-6 md:items-start lg:gap-6">
               <div className="w-full max-w-[260px] md:hidden">
                 <Image
-                  src="/mobilehro.png"
+                  src="/heroimage.png"
                   alt="Graduate"
                   width={260}
                   height={220}
