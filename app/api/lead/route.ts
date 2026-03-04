@@ -75,7 +75,7 @@ export async function POST(request: Request) {
           ["Intake", lead.intake || "-"]
         ]
       : []),
-    ["Source", lead.source || "-"]
+    // ["Source", lead.source || "-"]
   ];
 
   const textBody = rows.map(([label, value]) => `${label}: ${value}`).join("\n");

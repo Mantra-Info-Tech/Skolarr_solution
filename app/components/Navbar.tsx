@@ -9,6 +9,7 @@ const navLinks = [
   { name: "Why Us?", href: "#why-us" },
   { name: "Success Stories", href: "#success" },
   { name: "FAQs", href: "#faqs" },
+  { name: "Domestic", href: "/domestic" }
 ];
 
 export default function Navbar() {
@@ -16,6 +17,10 @@ export default function Navbar() {
 
   const handleNavClick =
     (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (!href.startsWith("#")) {
+        setIsOpen(false);
+        return;
+      }
       event.preventDefault();
       const target = document.querySelector(href);
       if (!target) return;
