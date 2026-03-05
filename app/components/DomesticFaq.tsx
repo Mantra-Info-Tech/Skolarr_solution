@@ -10,27 +10,27 @@ const faqs = [
   {
     question: "Who should apply for domestic PG counselling?",
     answer:
-      "Students planning PG admissions within India for MBA, MSc, MS, or allied postgraduate programs can apply. We support fresh graduates and working professionals."
+      "Students who are planning postgraduate admissions in India such as MBA, MSc, MS, M.Tech, or other allied PG programs can apply for counselling. Our services support both fresh graduates and working professionals looking to advance their academic and career goals."
   },
   {
-    question: "How do you shortlist colleges for me?",
+    question: "How does Skolarr Solutions help in choosing the right PG college in India?",
     answer:
-      "We evaluate your academic profile, entrance test scores, location preferences, budget, and specialization goals before recommending best-fit institutions."
+      "Our expert counsellors evaluate your academic background, entrance exam scores, specialization interests, location preference, and budget. Based on this detailed profile assessment, we recommend top PG colleges and universities in India that match your career goals."
   },
   {
     question: "Do you support complete admission documentation?",
     answer:
-      "Yes. We help with application forms, SOP/profile review, document checklist, and submission timelines so your applications stay accurate and complete."
+      "Yes. We offer end-to-end admission support including application form assistance, document verification, SOP/profile guidance, and submission timelines. Our team ensures your PG applications are accurate, complete, and submitted on time."
   },
   {
     question: "Can you guide me on scholarships and education loans?",
     answer:
-      "Yes. We guide you on available scholarship opportunities and connect you with relevant loan options based on your selected institutions and budget."
+      "Yes. We guide students on available scholarships for postgraduate courses and assist in identifying education loan options based on the chosen university, program, and financial requirements"
   },
   {
-    question: "How long does the domestic admission process take?",
+    question: "How long does the PG admission process in India usually take?",
     answer:
-      "Timelines vary by course and institution, but we help you plan each stage early so you can apply on time and avoid last-minute delays."
+      "The PG admission timeline in India depends on the university and program. Typically, the process may take a few weeks to a few months, including entrance exams, application submission, and admission confirmation. Our team helps you plan early to ensure a smooth and timely admission process."
   }
 ];
 

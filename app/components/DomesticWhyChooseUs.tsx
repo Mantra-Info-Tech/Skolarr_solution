@@ -4,33 +4,33 @@ const features = [
   {
     title: "1. Career Counselling",
     description:
-      "We help you choose the right domestic PG program based on your academics, budget, and long-term career goals.",
+      "We guide you in choosing the right course and university based on your academic background, career interests, and future goals.",
     points: [
-      "One-to-one profile review",
-      "Career-aligned course selection",
-      "Personalized admission roadmap"
+      "One-to-one profile evaluation",
+      "Career-focused course selection",
+      "Personalized academic guidance"
     ],
     icon: "counselling.png"
   },
   {
-    title: "2. College Shortlisting",
+    title: "2. Application & Entrance Exam Support",
     description:
-      "Get a shortlist of colleges and universities within India based on your profile and target specialization.",
+      "Our experts assist you throughout the admission process, helping you prepare applications and navigate entrance exam requirements with confidence.",
     points: [
-      "City and college comparison",
-      "Fee and ROI planning",
-      "Verified program options"
+      "Step-by-step application guidance",
+      "Entrance exam preparation support",
+      "Documentation and submission assistance"
     ],
     icon: "country.png"
   },
   {
-    title: "3. Application Support",
+    title: "3. Scholarship Assistance",
     description:
-      "From forms to document checks, we ensure your applications are complete, accurate, and on time.",
+      "We help students identify and apply for available scholarships to reduce financial burden and make quality education more accessible.",
     points: [
-      "Application review",
-      "Statement and profile guidance",
-      "Deadline tracking"
+      "Scholarship eligibility guidance",
+      "Assistance with scholarship applications",
+      "Financial planning support"
     ],
     icon: "application.png"
   },
@@ -58,12 +58,12 @@ export default function DomesticWhyChooseUs() {
         <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-4">
             <div className="rounded-[1.75rem] bg-gradient-to-b from-[#1b2a68] to-[#111f5a] px-8 py-9 text-center text-white">
-              <p className="text-6xl font-medium leading-none">250+</p>
-              <p className="mt-3 text-2xl font-semibold">Partner institutions</p>
+              <p className="text-6xl font-medium leading-none">1000+</p>
+              <p className="mt-3 text-2xl font-semibold">Universities & Colleges in India </p>
               <p className="mt-1 text-lg text-white/85">across domestic programs</p>
             </div>
             <div className="rounded-[1.75rem] bg-[#ecd5af] px-8 py-9 text-center text-[#6a4a1f]">
-              <p className="text-6xl font-medium leading-none">7500+</p>
+              <p className="text-6xl font-medium leading-none">20,500+</p>
               <p className="mt-3 text-2xl font-semibold">Students guided</p>
               <p className="mt-1 text-lg text-[#6a4a1f]/85">towards the right admissions</p>
             </div>

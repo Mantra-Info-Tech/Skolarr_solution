@@ -40,10 +40,10 @@ export default function DomesticHeroSection() {
   const canSubmit = useMemo(() => {
     return Boolean(
       values.name &&
-        values.email &&
-        values.phone &&
-        values.city &&
-        values.desiredCourse
+      values.email &&
+      values.phone &&
+      values.city &&
+      values.desiredCourse
     );
   }, [values]);
 
@@ -121,33 +121,33 @@ export default function DomesticHeroSection() {
       className="relative flex w-full items-center overflow-hidden bg-[#e8e8e8] py-12 lg:min-h-[800px]"
     >
       <div className="absolute inset-0 z-0  ">
-       <div className="hidden md:block">
-  <Image
-    src="/Hero_Domestic-2.png"
-    alt="Graduate background"
-    fill
-    priority
-    className="object-cover object-left lg:object-center"
-  />
-</div>
+        <div className="hidden md:block">
+          <Image
+            src="/Hero_Domestic-2.png"
+            alt="Graduate background"
+            fill
+            priority
+            className="object-cover object-left lg:object-center"
+          />
+        </div>
 
-{/* Mobile Image */}
-<div className="block md:hidden">
-  <Image
-    src="/Hero_Domestic_Mob.png"
-    alt="Graduate background"
-    fill
-    priority
-    className="object-cover"
-  />
-</div>
+        {/* Mobile Image */}
+        <div className="block md:hidden">
+          <Image
+            src="/Hero_Domestic_Mob.png"
+            alt="Graduate background"
+            fill
+            priority
+            className="object-cover"
+          />
+        </div>
       </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-0">
         <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
           <div className="order-1 mt-8 flex flex-col items-center text-center md:mt-0 md:items-start md:text-left lg:order-none lg:col-span-7">
             <div className="flex flex-col items-center gap-6 md:items-start lg:gap-6">
-             
+
               <div className="flex max-w-xl flex-col items-center justify-start gap-4 pt-4 md:pt-0 lg:flex-row lg:items-center">
                 <div className="hidden shrink-0 md:block">
                   <Image
@@ -174,7 +174,7 @@ export default function DomesticHeroSection() {
                 />
               </div>
               <p className="text-sm font-medium text-white  sm:text-base">
-                Trusted by <span className="font-medium text-white ">5k+ Students</span>
+                Trusted by <span className="font-medium text-white ">20.5K+ Students</span>
               </p>
               <a
                 href="#success"
@@ -204,9 +204,8 @@ export default function DomesticHeroSection() {
                     required
                     type="text"
                     placeholder="Name"
-                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
-                      errors.name ? "ring-2 ring-red-300" : ""
-                    }`}
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${errors.name ? "ring-2 ring-red-300" : ""
+                      }`}
                   />
                   {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
                 </div>
@@ -223,9 +222,8 @@ export default function DomesticHeroSection() {
                     required
                     type="email"
                     placeholder="Email address"
-                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
-                      errors.email ? "ring-2 ring-red-300" : ""
-                    }`}
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${errors.email ? "ring-2 ring-red-300" : ""
+                      }`}
                   />
                   {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
                 </div>
@@ -242,9 +240,8 @@ export default function DomesticHeroSection() {
                     required
                     type="tel"
                     placeholder="Phone number"
-                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
-                      errors.phone ? "ring-2 ring-red-300" : ""
-                    }`}
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${errors.phone ? "ring-2 ring-red-300" : ""
+                      }`}
                   />
                   {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
                 </div>
@@ -261,9 +258,8 @@ export default function DomesticHeroSection() {
                     required
                     type="text"
                     placeholder="City"
-                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${
-                      errors.city ? "ring-2 ring-red-300" : ""
-                    }`}
+                    className={`w-full rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-800 outline-none transition-all focus:ring-2 focus:ring-[#b38b40] ${errors.city ? "ring-2 ring-red-300" : ""
+                      }`}
                   />
                   {errors.city && <p className="mt-1 text-xs text-red-600">{errors.city}</p>}
                 </div>
@@ -278,9 +274,8 @@ export default function DomesticHeroSection() {
                     value={values.desiredCourse}
                     onChange={handleChange}
                     required
-                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${
-                      errors.desiredCourse ? "ring-2 ring-red-300" : ""
-                    }`}
+                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${errors.desiredCourse ? "ring-2 ring-red-300" : ""
+                      }`}
                   >
                     <option value="">Desired Course</option>
                     {domesticDesiredCourseOptions.map((option) => (
@@ -307,13 +302,12 @@ export default function DomesticHeroSection() {
 
                 {status !== "idle" && (
                   <p
-                    className={`text-center text-sm ${
-                      status === "success"
+                    className={`text-center text-sm ${status === "success"
                         ? "text-green-700"
                         : status === "error"
                           ? "text-red-700"
                           : "text-gray-600"
-                    }`}
+                      }`}
                   >
                     {statusMessage}
                   </p>
