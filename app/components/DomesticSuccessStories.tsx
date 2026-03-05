@@ -4,7 +4,7 @@ const stories = [
   {
     name: "Arjun Nair",
     course: "MBA",
-    city: " Pune",
+    city: "Kochi",
     quote:
       `“I was confused about which MBA colleges to apply to in India. The Skolarrs team helped me shortlist the right institutions based on my profile and career goals. Their guidance throughout the application process made everything much easier.”
 `

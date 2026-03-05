@@ -69,6 +69,9 @@ export async function POST(request: Request) {
     ["Phone", lead.phone],
     ["City", lead.city || "-"],
     ["Desired Course", lead.desiredCourse || "-"],
+    ...(lead.studyMode === "domestic"
+      ? [["Preferred City", lead.preferredCity || "-"]]
+      : []),
     ...(lead.studyMode === "abroad"
       ? [
           ["Preferred Country", lead.preferredCountry || "-"],

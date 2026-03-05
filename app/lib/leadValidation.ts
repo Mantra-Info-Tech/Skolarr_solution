@@ -1,11 +1,15 @@
 import { domesticDesiredCourseOptions } from "@/app/lib/domesticCourses";
-import { desiredCourseOptions } from "@/app/lib/leadFormOptions";
+import {
+  desiredCourseOptions,
+  domesticPreferredCityOptions
+} from "@/app/lib/leadFormOptions";
 
 export type LeadInput = {
   name: string;
   email: string;
   phone: string;
   city: string;
+  preferredCity: string;
   desiredCourse: string;
   preferredCountry: string;
   intake: string;
@@ -27,6 +31,7 @@ export function sanitizeLeadInput(input: Partial<LeadInput>): LeadInput {
     email: (input.email || "").trim(),
     phone: (input.phone || "").trim(),
     city: (input.city || "").trim(),
+    preferredCity: (input.preferredCity || "").trim(),
     desiredCourse: (input.desiredCourse || "").trim(),
     preferredCountry: (input.preferredCountry || "").trim(),
     intake: (input.intake || "").trim(),
@@ -74,6 +79,18 @@ export function validateLeadInput(input: LeadInput): LeadFieldErrors {
     !desiredCourseOptions.includes(input.desiredCourse as (typeof desiredCourseOptions)[number])
   ) {
     errors.desiredCourse = "Please select a valid desired course.";
+  }
+
+  if (input.studyMode === "domestic") {
+    if (!input.preferredCity) {
+      errors.preferredCity = "Preferred city is required.";
+    } else if (
+      !domesticPreferredCityOptions.includes(
+        input.preferredCity as (typeof domesticPreferredCityOptions)[number]
+      )
+    ) {
+      errors.preferredCity = "Please select a valid preferred city.";
+    }
   }
 
   if (input.studyMode === "abroad") {

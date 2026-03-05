@@ -11,12 +11,14 @@ import {
   type LeadFieldErrors
 } from "@/app/lib/leadValidation";
 import { domesticDesiredCourseOptions } from "@/app/lib/domesticCourses";
+import { domesticPreferredCityOptions } from "@/app/lib/leadFormOptions";
 
 type DomesticFormValues = {
   name: string;
   email: string;
   phone: string;
   city: string;
+  preferredCity: string;
   desiredCourse: string;
 };
 
@@ -27,6 +29,7 @@ const initialValues: DomesticFormValues = {
   email: "",
   phone: "",
   city: "",
+  preferredCity: "",
   desiredCourse: ""
 };
 
@@ -43,6 +46,7 @@ export default function DomesticHeroSection() {
       values.email &&
       values.phone &&
       values.city &&
+      values.preferredCity &&
       values.desiredCourse
     );
   }, [values]);
@@ -263,6 +267,34 @@ export default function DomesticHeroSection() {
                   />
                   {errors.city && <p className="mt-1 text-xs text-red-600">{errors.city}</p>}
                 </div>
+                <div className="relative">
+                  <label htmlFor="domestic-preferred-city" className="sr-only">
+                    Preferred City
+                  </label>
+                  <select
+                    id="domestic-preferred-city"
+                    name="preferredCity"
+                    value={values.preferredCity}
+                    onChange={handleChange}
+                    required
+                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${
+                      errors.preferredCity ? "ring-2 ring-red-300" : ""
+                    }`}
+                  >
+                    <option value="">Preferred City</option>
+                    {domesticPreferredCityOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                    <span className="text-xs">▼</span>
+                  </div>
+                </div>
+                {errors.preferredCity && (
+                  <p className="mt-1 text-xs text-red-600">{errors.preferredCity}</p>
+                )}
 
                 <div className="relative">
                   <label htmlFor="domestic-desired-course" className="sr-only">

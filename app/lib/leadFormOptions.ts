@@ -30,6 +30,13 @@ export const countryIntakeOptions = {
 
 export const preferredCountryOptions = Object.keys(countryIntakeOptions);
 
+export const domesticPreferredCityOptions = [
+  "Bangalore",
+  "Madurai",
+  "Chennai",
+  "Other Districts"
+] as const;
+
 export const getIntakeOptionsForCountry = (country: string): string[] => {
   return countryIntakeOptions[country as keyof typeof countryIntakeOptions]
     ? [...countryIntakeOptions[country as keyof typeof countryIntakeOptions]]

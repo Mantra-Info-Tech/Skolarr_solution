@@ -14,6 +14,7 @@ import {
 } from "@/app/lib/leadValidation";
 import {
   desiredCourseOptions,
+  domesticPreferredCityOptions,
   getIntakeOptionsForCountry,
   preferredCountryOptions
 } from "@/app/lib/leadFormOptions";
@@ -24,6 +25,7 @@ type LeadFormValues = {
   email: string;
   phone: string;
   city: string;
+  preferredCity: string;
   desiredCourse: string;
   preferredCountry: string;
   intake: string;
@@ -36,6 +38,7 @@ const initialValues: LeadFormValues = {
   email: "",
   phone: "",
   city: "",
+  preferredCity: "",
   desiredCourse: "",
   preferredCountry: "",
   intake: ""
@@ -77,6 +80,7 @@ export default function LeadFormModal() {
         values.email &&
         values.phone &&
         values.city &&
+        (!isDomesticFlow || values.preferredCity) &&
         values.desiredCourse
     );
 
@@ -274,6 +278,69 @@ export default function LeadFormModal() {
                 />
                 {errors.city && <p className="mt-1 text-xs text-red-600">{errors.city}</p>}
               </div>
+                     {isDomesticFlow ? (
+                <>
+                  <div className="relative">
+                    <label htmlFor="lead-preferred-city" className="sr-only">
+                      Preferred City
+                    </label>
+                    <select
+                      id="lead-preferred-city"
+                      name="preferredCity"
+                      value={values.preferredCity}
+                      onChange={handleChange}
+                      required
+                      className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                        errors.preferredCity ? "ring-2 ring-red-300" : ""
+                      }`}
+                    >
+                      <option value="">Preferred City</option>
+                      {domesticPreferredCityOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                      <span className="text-xs">▼</span>
+                    </div>
+                  </div>
+                  {errors.preferredCity && (
+                    <p className="mt-1 text-xs text-red-600">{errors.preferredCity}</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <div className="relative">
+                    <label htmlFor="lead-preferred-country" className="sr-only">
+                      Preferred Country
+                    </label>
+                    <select
+                      id="lead-preferred-country"
+                      name="preferredCountry"
+                      value={values.preferredCountry}
+                      onChange={handleChange}
+                      required
+                      className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
+                        errors.preferredCountry ? "ring-2 ring-red-300" : ""
+                      }`}
+                    >
+                      <option value="">Preferred Country</option>
+                      {preferredCountryOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                      <span className="text-xs">▼</span>
+                    </div>
+                  </div>
+                  {errors.preferredCountry && (
+                    <p className="mt-1 text-xs text-red-600">{errors.preferredCountry}</p>
+                  )}
+                </>
+              )}
 
               <div className="relative">
                 <label htmlFor="lead-desired-course" className="sr-only">
@@ -304,38 +371,7 @@ export default function LeadFormModal() {
                 <p className="mt-1 text-xs text-red-600">{errors.desiredCourse}</p>
               )}
 
-              <div className="relative">
-                <label htmlFor="lead-preferred-country" className="sr-only">
-                  Preferred Country
-                </label>
-                {!isDomesticFlow && (
-                  <>
-                    <select
-                      id="lead-preferred-country"
-                      name="preferredCountry"
-                      value={values.preferredCountry}
-                      onChange={handleChange}
-                      required
-                      className={`w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white p-3.5 text-sm text-gray-500 outline-none ${
-                        errors.preferredCountry ? "ring-2 ring-red-300" : ""
-                      }`}
-                    >
-                      <option value="">Preferred Country</option>
-                      {preferredCountryOptions.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
-                      <span className="text-xs">▼</span>
-                    </div>
-                  </>
-                )}
-              </div>
-              {!isDomesticFlow && errors.preferredCountry && (
-                <p className="mt-1 text-xs text-red-600">{errors.preferredCountry}</p>
-              )}
+       
 
               {!isDomesticFlow && (
                 <div className="relative">
