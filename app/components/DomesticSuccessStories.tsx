@@ -2,25 +2,27 @@ import Image from "next/image";
 
 const stories = [
   {
-    name: "Aarav Sharma",
+    name: "Arjun Nair",
     course: "MBA",
-    city: "Bengaluru",
+    city: " Pune",
     quote:
-      "Skolarrs helped me shortlist the right colleges and complete my domestic MBA applications on time."
+      `“I was confused about which MBA colleges to apply to in India. The Skolarrs team helped me shortlist the right institutions based on my profile and career goals. Their guidance throughout the application process made everything much easier.”
+`
   },
   {
-    name: "Nisha Reddy",
-    course: "MSc Data Science",
-    city: "Hyderabad",
+    name: "Karthik Subramanian",
+    course: "MBA Finance",
+    city: " Madurai",
     quote:
-      "The counselling was clear and practical. I got guidance for documents, deadlines, and final admission steps."
+      `“I wanted to pursue an MBA but didn’t know which colleges would be the right fit. The counselors explained different options and helped me evaluate them based on my career plans. Their guidance gave me clarity and confidence in my decision.”
+`
   },
   {
-    name: "Rohan Mehta",
-    course: "MS",
-    city: "Pune",
+    name: "Divya Lakshmi",
+    course: " MSc Biotechnology ",
+    city: "Coimbatore",
     quote:
-      "I was confused between programs. Their team mapped options based on my goals and budget."
+      `“The entire admission process felt overwhelming at first. Skolarrs provided step-by-step guidance from course selection to final application submission. Their support made the journey much smoother for me.”`
   }
 ];
 
@@ -45,7 +47,7 @@ export default function DomesticSuccessStories() {
                   <p className="text-sm text-gray-500">{story.course} • {story.city}</p>
                 </div>
               </div>
-              <p className="text-base leading-relaxed text-gray-700">“{story.quote}”</p>
+              <p className="text-base leading-relaxed text-gray-700">{story.quote}</p>
             </article>
           ))}
         </div>
