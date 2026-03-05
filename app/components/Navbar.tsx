@@ -8,8 +8,7 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Why Us?", href: "#why-us" },
   { name: "Success Stories", href: "#success" },
-  { name: "FAQs", href: "#faqs" },
-  { name: "Domestic", href: "/domestic" }
+  { name: "FAQs", href: "#faqs" }
 ];
 
 export default function Navbar() {
@@ -23,7 +22,10 @@ export default function Navbar() {
       }
       event.preventDefault();
       const target = document.querySelector(href);
-      if (!target) return;
+      if (!target) {
+        setIsOpen(false);
+        return;
+      }
 
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
