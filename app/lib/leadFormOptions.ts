@@ -32,8 +32,9 @@ export const preferredCountryOptions = Object.keys(countryIntakeOptions);
 
 export const domesticPreferredCityOptions = [
   "Bangalore",
-  "Madurai",
+  "Coimbatore",
   "Chennai",
+  "Madurai",
   "Other Districts"
 ] as const;
 

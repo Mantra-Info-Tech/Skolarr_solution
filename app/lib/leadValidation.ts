@@ -1,4 +1,7 @@
-import { domesticDesiredCourseOptions } from "@/app/lib/domesticCourses";
+import {
+  domesticDesiredCourseOptions,
+  getDomesticCollegeOptions
+} from "@/app/lib/domesticCourses";
 import {
   desiredCourseOptions,
   domesticPreferredCityOptions
@@ -10,6 +13,7 @@ export type LeadInput = {
   phone: string;
   city: string;
   preferredCity: string;
+  college: string;
   desiredCourse: string;
   preferredCountry: string;
   intake: string;
@@ -32,6 +36,7 @@ export function sanitizeLeadInput(input: Partial<LeadInput>): LeadInput {
     phone: (input.phone || "").trim(),
     city: (input.city || "").trim(),
     preferredCity: (input.preferredCity || "").trim(),
+    college: (input.college || "").trim(),
     desiredCourse: (input.desiredCourse || "").trim(),
     preferredCountry: (input.preferredCountry || "").trim(),
     intake: (input.intake || "").trim(),
@@ -90,6 +95,12 @@ export function validateLeadInput(input: LeadInput): LeadFieldErrors {
       )
     ) {
       errors.preferredCity = "Please select a valid preferred city.";
+    }
+
+    if (!input.college) {
+      errors.college = "College/University is required.";
+    } else if (!getDomesticCollegeOptions(input.preferredCity).includes(input.college)) {
+      errors.college = "Please select a valid college/university.";
     }
   }
 

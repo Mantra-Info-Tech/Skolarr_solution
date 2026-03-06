@@ -10,7 +10,10 @@ import {
   validateLeadInput,
   type LeadFieldErrors
 } from "@/app/lib/leadValidation";
-import { domesticDesiredCourseOptions } from "@/app/lib/domesticCourses";
+import {
+  domesticDesiredCourseOptions,
+  getDomesticCollegeOptions
+} from "@/app/lib/domesticCourses";
 import { domesticPreferredCityOptions } from "@/app/lib/leadFormOptions";
 
 type DomesticFormValues = {
@@ -19,6 +22,7 @@ type DomesticFormValues = {
   phone: string;
   city: string;
   preferredCity: string;
+  college: string;
   desiredCourse: string;
 };
 
@@ -30,6 +34,7 @@ const initialValues: DomesticFormValues = {
   phone: "",
   city: "",
   preferredCity: "",
+  college: "",
   desiredCourse: ""
 };
 
@@ -47,15 +52,31 @@ export default function DomesticHeroSection() {
       values.phone &&
       values.city &&
       values.preferredCity &&
+      values.college &&
       values.desiredCourse
     );
   }, [values]);
+
+  const collegeOptions = useMemo(
+    () => getDomesticCollegeOptions(values.preferredCity),
+    [values.preferredCity]
+  );
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
+    setValues((prev) => {
+      if (name === "preferredCity") {
+        const nextCollegeOptions = getDomesticCollegeOptions(value);
+        return {
+          ...prev,
+          preferredCity: value,
+          college: nextCollegeOptions.includes(prev.college) ? prev.college : ""
+        };
+      }
+      return { ...prev, [name]: value };
+    });
     setErrors((prev) => ({ ...prev, [name as keyof DomesticFormValues]: undefined }));
   };
 
@@ -295,6 +316,37 @@ export default function DomesticHeroSection() {
                 {errors.preferredCity && (
                   <p className="mt-1 text-xs text-red-600">{errors.preferredCity}</p>
                 )}
+
+                <div className="relative">
+                  <label htmlFor="domestic-college" className="sr-only">
+                    College/University
+                  </label>
+                  <select
+                    id="domestic-college"
+                    name="college"
+                    value={values.college}
+                    onChange={handleChange}
+                    required
+                    className={`w-full cursor-pointer appearance-none rounded-xl bg-[#f3f4f6] p-4 text-sm text-gray-500 outline-none ${
+                      errors.college ? "ring-2 ring-red-300" : ""
+                    }`}
+                  >
+                    <option value="">
+                      {values.preferredCity
+                        ? "Select College/University"
+                        : "Select Preferred City First"}
+                    </option>
+                    {collegeOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                    <span className="text-xs">▼</span>
+                  </div>
+                </div>
+                {errors.college && <p className="mt-1 text-xs text-red-600">{errors.college}</p>}
 
                 <div className="relative">
                   <label htmlFor="domestic-desired-course" className="sr-only">

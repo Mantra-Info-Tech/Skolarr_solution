@@ -70,7 +70,10 @@ export async function POST(request: Request) {
     ["City", lead.city || "-"],
     ["Desired Course", lead.desiredCourse || "-"],
     ...(lead.studyMode === "domestic"
-      ? [["Preferred City", lead.preferredCity || "-"]]
+      ? [
+          ["Preferred City", lead.preferredCity || "-"],
+          ["College/University", lead.college || "-"]
+        ]
       : []),
     ...(lead.studyMode === "abroad"
       ? [
