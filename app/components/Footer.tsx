@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Facebook, Instagram, Youtube, PhoneIcon as Whatsapp } from 'lucide-react';
+import { Facebook, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -55,7 +55,7 @@ const Footer = () => {
                 <p>0422-4370044</p>
                 <p>+91 9790 444 443</p>
                 <p className="break-all">info@skolarrssolutions.com</p>
-                <Link href="skolarrssolutions.com" className="text-[#a67c52] hover:underline">
+                <Link href="https://skolarrssolutions.com" className="text-[#a67c52] hover:underline">
                  skolarrssolutions.com
                 </Link>
               </div>
