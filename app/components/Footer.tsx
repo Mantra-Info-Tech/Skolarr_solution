@@ -55,9 +55,9 @@ const Footer = () => {
                 <p>0422-4370044</p>
                 <p>+91 9790 444 443</p>
                 <p className="break-all">info@skolarrssolutions.com</p>
-                <Link href="https://skolarrssolutions.com" className="text-[#a67c52] hover:underline">
+                {/* <Link href="https://skolarrssolutions.com" className="text-[#a67c52] hover:underline">
                  skolarrssolutions.com
-                </Link>
+                </Link> */}
               </div>
             </div>
 
@@ -136,14 +136,14 @@ const Footer = () => {
           </p>
           <p className="opacity-80">
             Designed&Developed By &nbsp;&nbsp;
-            <a
+            {/* <a
               href="https://web.mantrainfotechs.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold hover:underline"
-            >
+            > */}
               mits
-            </a>
+            {/* </a> */}
           </p>
         </div>
       </div>
