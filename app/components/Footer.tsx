@@ -88,7 +88,7 @@ const Footer = () => {
                 <Instagram size={21} strokeWidth={2} />
               </Link>
               <Link
-                href="https://wa.me/yournumber"
+                href="https://wa.me/+919790444443"
                 target="_blank"
                 aria-label="WhatsApp"
                 className="group h-10 w-10 p-1 border border-gray-400 rounded-md hover:bg-[#a67c52] hover:border-[#a67c52] transition-all flex items-center justify-center"
