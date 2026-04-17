@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Script from "next/script";
 import HeroSection from "./components/HeroSection";
 import Navbar from "./components/Navbar";
@@ -32,6 +31,16 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-PPGCCBJ');`}
+      </Script>
+      <Script
+        id="salesmax-loader"
+        src="https://salesmax.ai/formdata/js/v1/index.js"
+        strategy="afterInteractive"
+      />
+      <Script id="salesmax-config" strategy="afterInteractive">
+        {`window.salesmaxDataLayer = window.salesmaxDataLayer || {};
+window.salesmaxDataLayer.version = 'v1';
+window.salesmaxDataLayer.account = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJqdGkiOiI3ZHFtX3hfcndOam5jZXhVZGRRNWhRIiwic3ViIjoiNjgwMjFhMjQtMmUyZS00NmE5LWIzMmYtZTcxNWFiYjI3YmI5IiwiaWF0IjoxNzc2MzE5MzIzfQ.rM8pLwJVwMWe_qFsNI_TVyl3PyC64pl8vstVS-x42NZtXFqw8ewexxZVED9AjUm5';`}
       </Script>
       <noscript>
         <iframe
